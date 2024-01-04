@@ -10,5 +10,6 @@ This will create a list of posts drawn from posts which have a custom field call
 
 Installation:
 In your Wordpress plugins directory: wp-content/plugins/ add a subdirectory called jc-filter
-Copy the jc_filter.php file to wp-content/plugins/jc-filter
+Copy the jc_filter.php file to wp-content/plugins/jc-filter/
+
 Activate the plugin within Wordpress.
