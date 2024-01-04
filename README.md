@@ -7,7 +7,7 @@ In a page, insert a shortcode like this:
 [jc_filter include="includeA, includeB" exclude="excludeMe" date_format="Y-m-d" date_position="start" order="desc"]
 
 This will create a list of posts drawn from posts which have a custom field called jc_filter with a relevant value. Use PHP date format characters. 
-So that posts are also hidden from the default 'uncategorised' default category, we add a couple of additional filters for this when not in admin mode.
+So that posts are also hidden from the default 'uncategorised' default category, we add a filter for this when not in admin mode.
 
 Installation:
 In your Wordpress plugins directory: wp-content/plugins/ add a subdirectory called jc-filter
