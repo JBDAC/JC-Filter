@@ -2,7 +2,7 @@
 /**
 * Plugin Name: JC Filter
 * Description: Filter posts and pages based on the jc_filter custom field. Display an empty page when nothing matches the jc_filter. Usage: [jc_filter include="includeA, includeB" exclude="excludeMe" date_format="Y-m-d" date_position="start" order="desc"]
- (This will create a list of posts drawn from posts which have a custom field called jc_filter with a relevant value. Use PHP date format characters)
+ (This will create a list of posts drawn from posts which have a custom field called jc_filter with a relevant value. Use PHP date format characters) In order that posts are also hidden from the default 'uncategorised' default category, we add a couple of additional filters for this when not in admin mode.
 * Version: 1.0
 * Author: JBDAC
 **/
@@ -85,3 +85,40 @@ function jc_filter_shortcode($atts) {
 
 add_shortcode('jc_filter_posts', 'jc_filter_shortcode');
 
+//Hide the default (uncategorized) category:
+
+// Function to exclude 'Uncategorized' from get_the_terms
+function jc_filter_exclude_uncategorized_from_terms($terms, $taxonomy){
+    // Check if the taxonomy is 'category'
+    if (!in_array('category', $taxonomy)) {
+        return $terms;
+    }
+
+    $uncategorized_id = get_option('default_category'); // Get the ID of 'Uncategorized'
+
+    // Filter out the 'Uncategorized' term
+    return array_filter($terms, function($term) use ($uncategorized_id) {
+        return $term->term_id != $uncategorized_id;
+    });
+}
+
+// Function to exclude 'Uncategorized' from get_terms
+function jc_filter_exclude_uncategorized_from_get_terms($terms, $taxonomies, $args){
+    // Check if 'category' is part of the taxonomies
+    if (!in_array('category', $taxonomies)) {
+        return $terms;
+    }
+
+    $uncategorized_id = get_option('default_category'); // Get the ID of 'Uncategorized'
+
+    // Filter out the 'Uncategorized' term
+    return array_filter($terms, function($term) use ($uncategorized_id) {
+        return $term->term_id != $uncategorized_id;
+    });
+}
+
+// Apply the filters only if not in admin area
+if (!is_admin()) {
+    add_filter('get_the_terms', 'jc_filter_exclude_uncategorized_from_terms', 10, 2);
+    add_filter('get_terms', 'jc_filter_exclude_uncategorized_from_get_terms', 10, 3);
+}
