@@ -83,7 +83,7 @@ function jc_filter_shortcode($atts) {
     return display_posts_with_jc_filter($atts['include'], $atts['exclude'], $atts['date_format'], $atts['date_position'], $atts['order']);
 }
 
-add_shortcode('jc_filter_posts', 'jc_filter_shortcode');
+add_shortcode('jc_filter', 'jc_filter_shortcode');
 
 //Hide the default (uncategorized) category:
 
